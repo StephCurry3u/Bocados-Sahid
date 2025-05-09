@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BOCADOS SAHID</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #9e2a2a; /* Color principal de tu marca */
+      --secondary-color: #7a1f1f; /* Color más oscuro para hover */
+      --dark-color: #2c2c2c; /* Color del menú */
+      --light-color: #f9fafb;
+      --hover-color: #9e2a2a; /* Color de borde hover */
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border: 0;
+    }
+    
+    body {
+      background-image: url('fondo.png');
+      padding: 50px;
+      font-family: 'Arial', sans-serif;
+      transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Estilos para el menú desplegable */
+    .menu-btn {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      background-color: #000000;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn:hover {
+      background-color: var(--secondary-color);
+      transform: scale(1.05);
+    }
+    
+    .menu-btn__bar {
+      width: 24px;
+      height: 3px;
+      background-color: white;
+      margin: 2px 0;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    
+    #sideMenu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      background-color: var(--dark-color);
+      overflow-x: hidden;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding-top: 5rem;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    #sideMenu.open {
+      width: 280px;
+    }
+    
+    #sideMenu .menu-header {
+      padding: 1rem 2rem;
+      color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    #sideMenu .menu-header img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    
+    #sideMenu .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #sideMenu a {
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    
+    #sideMenu a:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: white;
+      border-left: 4px solid var(--hover-color);
+    }
+    
+    #sideMenu a i {
+      margin-right: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .content {
+      transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .content.shifted {
+      margin-left: 280px;
+    }
+    
+    /* Estilos para las tarjetas (manteniendo tu diseño original) */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      margin: auto;
+      width: 100%;
+      max-width: 1200px;
+      grid-gap: 24px;
+      margin-top: 20px;
+    }
+    
+    @media (min-width: 540px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 960px) {
+      .cards {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    .card {
+      position: relative;
+      padding-bottom: 150%;
+    }
+    
+    .card-background {
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      border-radius: 24px;
+      filter: brightness(.75) saturate(1.2) contrast(.85);
+      transition: .3s;
+    }
+    
+    .card-content {
+      position: absolute;
+      padding: 24px;
+      font-family: arial, sans-serif;
+      color: white;
+    }
+    
+    .card-content p {
+      color: rgba(255, 255, 255, .6);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      font-size: .9rem;
+    }
+    
+    .card-content h3 {
+      font-size: 1.9rem;
+      color: rgba(255, 255, 255, .9);
+      text-shadow: 2px 2px 20px rgba(0, 0, 0, .2);
+    }
+    
+    .card:hover .card-background {
+      transform: scale(1.05);
+    }
+    
+    .cards:hover > .card:not(:hover) > .card-background {
+      filter: brightness(.5) saturate(0) contrast(1.2) blur(20px);
+    }
+    
+    /* Ajustes para pantallas pequeñas */
+    @media (max-width: 768px) {
+      .content.shifted {
+        margin-left: 0;
+      }
+      
+      #sideMenu.open {
+        width: 100%;
+      }
+      
+      body {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Botón del menú hamburguesa -->
+  <button class="menu-btn" id="menuBtn">
+    <span class="menu-btn__bar"></span>
+    <span class="menu-btn__bar"></span>
+    <span class="menu-btn__bar"></span>
+  </button>
+
+  <!-- Menú desplegable lateral -->
+  <div id="sideMenu">
+    <div class="menu-header">
+      <img src="logo.png" alt="BOCADOS SAHID">
+      <h3>BOCADOS SAHID</h3>
+    </div>
+    <div class="menu-items">
+      <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+      <a href="menu.html"><i class="fas fa-utensils"></i> Menú</a>
+      <a href="nosotros.html"><i class="fas fa-users"></i> Sobre Nosotros</a>
+      <a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content" id="main">
+    <div class="cards">
+      <!-- Carte A -->
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('p1.jpeg')"></div>
+        <div class="card-content">
+          <p>Bollos tiernos + Ensalada rusa casera + Jamón en cubitos = ¡La combinación que te hará repetir!</p>
+          <h3>BOLLOS</h3>
+        </div>
+      </a>
+      
+      <!-- Carte B -->
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('p2.jpg')"></div>
+        <div class="card-content">
+          <p> la suavidad y el sabor irresistible de nuestros</p>
+          <h3>CUERNITOS</h3>
+        </div>
+      </a>
+      
+      <!-- Carte C -->
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('p3.jpg')"></div>
+        <div class="card-content">
+          <p>Descubre el auténtico sabor de los</p>
+          <h3>PASTES SALADOS</h3>
+        </div>
+      </a>
+      
+      <!-- Carte D -->
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('p4.jpg')"></div>
+        <div class="card-content">
+          <p>Endulza tu día con nuestros irresistibles</p>
+          <h3>PASTES DULCES</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('p5.jpg')"></div>
+        <div class="card-content">
+          <p>nuestro delicioso</p>
+          <h3>ROLLO DE SALCHICHA</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('volo.jpg')"></div>
+        <div class="card-content">
+          <p>Sabes qué es mejor que un volován? ¡Uno relleno de ensalada rusa y jamón! </p>
+          <h3>VOLOVANES</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('hojaldra.jpeg')"></div>
+        <div class="card-content">
+          <p>Mole espeso, aromático y lleno de tradición, envuelto en un hojaldre que se deshace en tu boca... ¡una experiencia celestial! </p>
+          <h3>HOJALDRA DE MOLE</h3>
+        </div>
+      </a>
+    
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('cono.jpg')"></div>
+        <div class="card-content">
+          <p>Cruje ligeramente al morderlo, luego descubre ese interior esponjoso y el relleno cremoso que te hará cerrar los ojos de placer... ¡Pura magia horneada!</p>
+          <h3>CONOS DE BRIOCHE</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('ham.jpeg')"></div>
+        <div class="card-content">
+          <p>No es solo una hamburguesa, es una experiencia</p>
+          <h3>HAMBURGUESAS</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('empa.jpeg')"></div>
+        <div class="card-content">
+          <p>Masa casera, relleno generoso y ese toque dorado perfecto</p>
+          <h3>EMPANADAS</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('cup.jpeg')"></div>
+        <div class="card-content">
+          <p>Delicias horneadas con ingredientes premium y decoradas a mano</p>
+          <h3>CUPCAKES</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('tarta.jpeg')"></div>
+        <div class="card-content">
+          <p>¿Tamaño mini? Sí. ¿Sabor maxi? ¡Absolutamente!</p>
+          <h3>MINI TARTAS</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('concha.jpeg')"></div>
+        <div class="card-content">
+          <p>Un café caliente + una concha rellena = PERFECCION</p>
+          <h3>CONCHAS RELLENAS</h3>
+        </div>
+      </a>
+      <a href="#" class="card">
+        <div class="card-background" style="background-image: url('pastel.jpeg')"></div>
+        <div class="card-content">
+          <p>Pequeñas obras maestras</p>
+          <h3>PASTELITOS INDIVIDUALES</h3>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const mainContent = document.getElementById('main');
+    
+    menuBtn.addEventListener('click', () => {
+      sideMenu.classList.toggle('open');
+      mainContent.classList.toggle('shifted');
+      menuBtn.classList.toggle('open');
+    });
+
+    // Cerrar el menú al hacer clic en un enlace
+    document.querySelectorAll('#sideMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        sideMenu.classList.remove('open');
+        mainContent.classList.remove('shifted');
+        menuBtn.classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>

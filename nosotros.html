@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BOCADOS SAHID</title>
+  <link rel="stylesheet" href="s.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Estilos del menú desplegable */
+    .menu-btn {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      background-color: #000000;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn:hover {
+      background-color: #333;
+      transform: scale(1.05);
+    }
+    
+    .menu-btn__bar {
+      width: 24px;
+      height: 3px;
+      background-color: white;
+      margin: 2px 0;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    
+    #sideMenu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      background-color: #2c2c2c;
+      overflow-x: hidden;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding-top: 5rem;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    #sideMenu.open {
+      width: 280px;
+    }
+    
+    #sideMenu .menu-header {
+      padding: 1rem 2rem;
+      color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    #sideMenu .menu-header img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    
+    #sideMenu .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #sideMenu a {
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    
+    #sideMenu a:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: white;
+      border-left: 4px solid #9e2a2a;
+    }
+    
+    #sideMenu a i {
+      margin-right: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .content {
+      transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .content.shifted {
+      margin-left: 280px;
+    }
+
+    /* Estilos originales de la descripción */
+    .descripcion-local {
+      font-family: 'Montserrat', sans-serif;
+      background-color: rgba(255, 107, 53, 0.6);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 600px;
+      margin: 20px auto;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      border: 3px solid #f1faee;
+      line-height: 1.6;
+    }
+    
+    .titulo {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .subtitulo {
+      font-style: italic;
+      font-size: 18px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+    
+    .texto-destacado {
+      font-weight: 600;
+      font-size: 20px;
+    }
+
+    /* Estilo del título principal */
+    h1 {
+      font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+    }
+
+    /* Ajustes para pantallas pequeñas */
+    @media (max-width: 768px) {
+      .content.shifted {
+        margin-left: 0;
+      }
+      
+      #sideMenu.open {
+        width: 100%;
+      }
+      
+      .descripcion-local {
+        padding: 20px;
+        margin: 20px 15px;
+      }
+      
+      .titulo {
+        font-size: 22px;
+      }
+      
+      .texto-destacado {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Botón del menú hamburguesa -->
+  <button class="menu-btn" id="menuBtn">
+    <span class="menu-btn__bar"></span>
+    <span class="menu-btn__bar"></span>
+    <span class="menu-btn__bar"></span>
+  </button>
+
+  <!-- Menú desplegable lateral -->
+  <div id="sideMenu">
+    <div class="menu-header">
+      <img src="logo.png" alt="BOCADOS SAHID">
+      <h3>BOCADOS SAHID</h3>
+    </div>
+    <div class="menu-items">
+      <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+      <a href="menu.html"><i class="fas fa-utensils"></i> Menú</a>
+      <a href="nosotros.html"><i class="fas fa-users"></i> Sobre Nosotros</a>
+      <a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content" id="main">
+    <div style="margin-top: 80px;"></div> <!-- Espacio para el menú -->
+    
+    <div class="descripcion-local">
+      <div class="titulo">Sabores que Cuentan Historias</div>
+      <div class="subtitulo">Donde cada bocado es un viaje culinario</div>
+      <p class="texto-destacado">En nuestro rincón gastronómico, fusionamos tradición y creatividad para ofrecerte experiencias que despiertan los sentidos.</p>
+      <p>Ingredientes frescos de proveedores locales, técnicas que honran la cocina artesanal y presentaciones que enamoran la vista. Más que un restaurante, somos un espacio donde los sabores auténticos se encuentran con la innovación.</p>
+      <p>¿Listo para descubrir tu nuevo plato favorito?</p>
+      <br>
+      
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const mainContent = document.getElementById('main');
+    
+    menuBtn.addEventListener('click', () => {
+      sideMenu.classList.toggle('open');
+      mainContent.classList.toggle('shifted');
+      menuBtn.classList.toggle('open');
+    });
+
+    // Cerrar el menú al hacer clic en un enlace
+    document.querySelectorAll('#sideMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        sideMenu.classList.remove('open');
+        mainContent.classList.remove('shifted');
+        menuBtn.classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>

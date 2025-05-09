@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BOCADOS SAHID</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Tus estilos originales */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-image: url('fondo.png'); 
+      padding: 50px;
+    }
+
+    .up {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5em;
+    }
+    .down {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5em;
+    }
+    .card1 {
+      width: 90px;
+      height: 90px;
+      outline: none;
+      border: none;
+      background: white;
+      border-radius: 90px 5px 5px 5px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      transition: .2s ease-in-out;
+    }
+    .instagram {
+      margin-top: 1.5em;
+      margin-left: 1.2em;
+      fill: #cc39a4;
+    }
+    .card2 {
+      width: 90px;
+      height: 90px;
+      outline: none;
+      border: none;
+      background: white;
+      border-radius: 5px 90px 5px 5px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      transition: .2s ease-in-out;
+    }
+    .twitter {
+      margin-top: 1.5em;
+      margin-left: -.9em;
+      fill: #03A9F4;
+    }
+    .card3 {
+      width: 90px;
+      height: 90px;
+      outline: none;
+      border: none;
+      background: white;
+      border-radius: 5px 5px 5px 90px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      transition: .2s ease-in-out;
+    }
+    .github {
+      margin-top: -.6em;
+      margin-left: 1.2em;
+    }
+    .card4 {
+      width: 90px;
+      height: 90px;
+      outline: none;
+      border: none;
+      background: white;
+      border-radius: 5px 5px 90px 5px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      transition: .2s ease-in-out;
+    }
+    .discord {
+      margin-top: -.9em;
+      margin-left: -1.2em;
+      fill: #8c9eff;
+    }
+    .card1:hover {
+      cursor: pointer;
+      scale: 1.1;
+      background-color: #cc39a4;
+    }
+    .card1:hover .instagram {
+      fill: white;
+    }
+    .card2:hover {
+      cursor: pointer;
+      scale: 1.1;
+      background-color: #03A9F4;
+    }
+    .card2:hover .twitter {
+      fill: white;
+    }
+    .card3:hover {
+      cursor: pointer;
+      scale: 1.1;
+      background-color: black;
+    }
+    .card3:hover .github {
+      fill: white;
+    }
+    .card4:hover {
+      cursor: pointer;
+      scale: 1.1;
+      background-color: #8c9eff;
+    }
+    .card4:hover .discord {
+      fill: white;
+    }
+
+    /* Estilos para el menú desplegable */
+    .menu-btn {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      background-color: #000000; /* Fondo negro */
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn:hover {
+      background-color: #333; /* Negro más claro al hacer hover */
+      transform: scale(1.05);
+    }
+    
+    .menu-btn__bar {
+      width: 24px;
+      height: 3px;
+      background-color: white;
+      margin: 2px 0;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    
+    #sideMenu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      background-color: #2c2c2c;
+      overflow-x: hidden;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding-top: 5rem;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    #sideMenu.open {
+      width: 280px;
+    }
+    
+    #sideMenu .menu-header {
+      padding: 1rem 2rem;
+      color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    #sideMenu .menu-header img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    
+    #sideMenu .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #sideMenu a {
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    
+    #sideMenu a:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: white;
+      border-left: 4px solid #9e2a2a;
+    }
+    
+    #sideMenu a i {
+      margin-right: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .content {
+      transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .content.shifted {
+      margin-left: 280px;
+    }
+
+    /* Ajustes para pantallas pequeñas */
+    @media (max-width: 768px) {
+      .content.shifted {
+        margin-left: 0;
+      }
+      
+      #sideMenu.open {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Botón del menú hamburguesa con fondo negro -->
+  <button class="menu-btn" id="menuBtn">
+    <span class="menu-btn__bar"></span>
+    <span class="menu-btn__bar"></span>
+    <span class="menu-btn__bar"></span>
+  </button>
+
+  <!-- Menú desplegable lateral -->
+  <div id="sideMenu">
+    <div class="menu-header">
+      <img src="logo.png" alt="BOCADOS SAHID">
+      <h3>BOCADOS SAHID</h3>
+    </div>
+    <div class="menu-items">
+      <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+      <a href="menu.html"><i class="fas fa-utensils"></i> Menú</a>
+      <a href="nosotros.html"><i class="fas fa-users"></i> Sobre Nosotros</a>
+      <a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content" id="main">
+    <div class="up">
+      <button class="card1">
+        <a href="https://www.instagram.com/boca.dossahid?igsh=YXFkNjVvczdubTk5" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0,256,256" width="30px" height="30px" fill-rule="nonzero" class="instagram">
+            <g fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+              <g transform="scale(8,8)">
+                <path d="M11.46875,5c-3.55078,0 -6.46875,2.91406 -6.46875,6.46875v9.0625c0,3.55078 2.91406,6.46875 6.46875,6.46875h9.0625c3.55078,0 6.46875,-2.91406 6.46875,-6.46875v-9.0625c0,-3.55078 -2.91406,-6.46875 -6.46875,-6.46875zM11.46875,7h9.0625c2.47266,0 4.46875,1.99609 4.46875,4.46875v9.0625c0,2.47266 -1.99609,4.46875 -4.46875,4.46875h-9.0625c-2.47266,0 -4.46875,-1.99609 -4.46875,-4.46875v-9.0625c0,-2.47266 1.99609,-4.46875 4.46875,-4.46875zM21.90625,9.1875c-0.50391,0 -0.90625,0.40234 -0.90625,0.90625c0,0.50391 0.40234,0.90625 0.90625,0.90625c0.50391,0 0.90625,-0.40234 0.90625,-0.90625c0,-0.50391 -0.40234,-0.90625 -0.90625,-0.90625zM16,10c-3.30078,0 -6,2.69922 -6,6c0,3.30078 2.69922,6 6,6c3.30078,0 6,-2.69922 6,-6c0,-3.30078 -2.69922,-6 -6,-6zM16,12c2.22266,0 4,1.77734 4,4c0,2.22266 -1.77734,4 -4,4c-2.22266,0 -4,-1.77734 -4,-4c0,-2.22266 1.77734,-4 4,-4z"></path>
+              </g>
+            </g>
+          </svg>
+        </a>
+      </button>
+      <button class="card2">
+        <a href="https://wa.me/525523468376" target="_blank">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="30" height="30" class="twitter">
+        </a>
+      </button>
+    </div>
+    <div class="down">
+      <button class="card3">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.9137206480736!2d-99.0112959!3d19.4161335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1e34a9e57f847%3A0x44ce6a8a85b159a5!2sC.%20Gaviota%20346%2C%20Benito%20Ju%C3%A1rez%2C%2057000%20Benito%20Juarez%2C%20M%C3%A9x.!5e0!3m2!1ses-419!2smx!4v1746822800993!5m2!1ses-419!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>      </button>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const mainContent = document.getElementById('main');
+    
+    menuBtn.addEventListener('click', () => {
+      sideMenu.classList.toggle('open');
+      mainContent.classList.toggle('shifted');
+      menuBtn.classList.toggle('open');
+    });
+
+    // Cerrar el menú al hacer clic en un enlace
+    document.querySelectorAll('#sideMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        sideMenu.classList.remove('open');
+        mainContent.classList.remove('shifted');
+        menuBtn.classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>

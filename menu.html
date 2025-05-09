@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BOCADOS SAHID - Menú</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Estilos generales */
+    :root {
+      --primary-color: #9e2a2a;
+      --secondary-color: #7a1f1f;
+      --accent-color: #ff6b35;
+      --light-color: #f8f1e5;
+      --dark-color: #2c2c2c;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-color);
+      color: var(--dark-color);
+      line-height: 1.6;
+    }
+    
+    /* Estilos del menú desplegable */
+    .menu-btn {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary-color);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .menu-btn:hover {
+      background-color: var(--secondary-color);
+      transform: scale(1.05);
+    }
+    
+    .menu-btn__bar {
+      width: 24px;
+      height: 3px;
+      background-color: white;
+      margin: 2px 0;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    
+    #sideMenu {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      background-color: var(--dark-color);
+      overflow-x: hidden;
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding-top: 5rem;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    #sideMenu.open {
+      width: 280px;
+    }
+    
+    #sideMenu .menu-header {
+      padding: 1rem 2rem;
+      color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    #sideMenu .menu-header img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    
+    #sideMenu .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #sideMenu a {
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    
+    #sideMenu a:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: white;
+      border-left: 4px solid var(--accent-color);
+    }
+    
+    #sideMenu a i {
+      margin-right: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .content {
+      transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding-top: 80px;
+    }
+    
+    .content.shifted {
+      margin-left: 280px;
+    }
+    
+    /* Estilos del menú del restaurante */
+    .menu-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .menu-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .menu-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.5rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .menu-subtitle {
+      font-size: 1.2rem;
+      color: var(--accent-color);
+      font-style: italic;
+    }
+    
+    .menu-section {
+      margin-bottom: 40px;
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem;
+      color: var(--primary-color);
+      border-bottom: 2px dashed var(--accent-color);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .menu-item {
+      margin-bottom: 15px;
+    }
+    
+    .item-name {
+      font-weight: 600;
+    }
+    
+    .menu-note {
+      font-style: italic;
+      margin-top: 30px;
+      padding: 15px;
+      background-color: rgba(255, 107, 53, 0.1);
+      border-left: 4px solid var(--accent-color);
+    }
+    
+    /* Ajustes para pantallas pequeñas */
+    @media (max-width: 768px) {
+      .content.shifted {
+        margin-left: 0;
+      }
+      
+      #sideMenu.open {
+        width: 100%;
+      }
+      
+      .menu-title {
+        font-size: 2.5rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Botón del menú hamburguesa -->
+  <button class="menu-btn" id="menuBtn">
+    <span class="menu-btn__bar"></span>
+    <span class="menu-btn__bar"></span>
+    <span class="menu-btn__bar"></span>
+  </button>
+
+  <!-- Menú desplegable lateral -->
+  <div id="sideMenu">
+    <div class="menu-header">
+      <img src="logo.png" alt="BOCADOS SAHID">
+      <h3>BOCADOS SAHID</h3>
+    </div>
+    <div class="menu-items">
+      <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+      <a href="menu.html"><i class="fas fa-utensils"></i> Menú</a>
+      <a href="nosotros.html"><i class="fas fa-users"></i> Sobre Nosotros</a>
+      <a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content" id="main">
+    <div class="menu-container">
+      <div class="menu-header">
+        <h1 class="menu-title">Bocados Sahid</h1>
+        <p class="menu-subtitle">Pizzas y bocadillos gourmet</p>
+      </div>
+      
+      <!-- Bocadillos Tradicionales -->
+      <div class="menu-section">
+        <h2 class="section-title">Bocadillos Tradicionales</h2>
+        
+        <div class="menu-item">
+          <span class="item-name">Cuernitos de jamón con queso</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Bollos con ensalada rusa y cubitos de jamón</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Rollos crocantes de salchicha con queso</span>
+        </div>
+        
+        <h3 style="margin: 20px 0 10px; color: var(--primary-color);">Pastes o empanadas:</h3>
+        
+        <div class="menu-item">
+          <span class="item-name">Hawaianos</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Jamón con queso</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Queso</span>
+        </div>
+      </div>
+      
+      <!-- Especialidades -->
+      <div class="menu-section">
+        <h2 class="section-title">Especialidades</h2>
+        
+        <div class="menu-item">
+          <span class="item-name">Volovanes con ensalada y pollo o atún</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Hojaldra con mole y pollo</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Marinas con ensalada y pollo</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Conos brioche con carne y papa</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Bollos con milanesa de puerco</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Hamburguesas</span>
+        </div>
+        
+        <h3 style="margin: 20px 0 10px; color: var(--primary-color);">Pastes o empanadas saladas:</h3>
+        
+        <div class="menu-item">
+          <span class="item-name">Carne con papa</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Pollo con mole</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Rajas con queso</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Tinga de pollo</span>
+        </div>
+      </div>
+      
+      <!-- Bocadillos Dulces -->
+      <div class="menu-section">
+        <h2 class="section-title">Bocadillos Dulces</h2>
+        
+        <h3 style="margin: 20px 0 10px; color: var(--primary-color);">Empanadas o pastes:</h3>
+        
+        <div class="menu-item">
+          <span class="item-name">Crema pastelera</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Zarzamora con queso</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Fresa con queso</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Piña con queso</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Ate con queso</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Chocolate</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Crema de chocolate</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Crema de nata</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Crema moka</span>
+        </div>
+        
+        <h3 style="margin: 20px 0 10px; color: var(--primary-color);">Volovanes:</h3>
+        
+        <div class="menu-item">
+          <span class="item-name">Crema pastelera</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Crema de nata</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Crema de chocolate</span>
+        </div>
+        
+        <h3 style="margin: 20px 0 10px; color: var(--primary-color);">Otros:</h3>
+        
+        <div class="menu-item">
+          <span class="item-name">Cupcakes</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Mini tartas</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Conchas rellenas</span>
+        </div>
+        
+        <div class="menu-item">
+          <span class="item-name">Pastelitos individuales</span>
+        </div>
+      </div>
+      
+      <!-- Sistema de compra -->
+      <div class="menu-section">
+        <h2 class="section-title">Sistema de Compra</h2>
+        
+        <div class="menu-note">
+          <p><strong>1)</strong> La cantidad mínima es de 50 piezas</p>
+          <p><strong>2)</strong> En un orden de tres embutidos y dos carnicos.</p>
+          <p><strong>3)</strong> Por cada carnicos la diferencia a pagar es de 5.00 por elección.</p>
+          <p><strong>4)</strong> Para poder hacer su pedido debera pagar el 50% en el momento de hacer su orden y el resto en el momento de la entrega.</p>
+          <p><strong>5)</strong> El producto se entrega en tienda.</p>
+          <p><strong>6)</strong> Si desea que se entregue a domicilio tiene un costo extra dependiendo la localidad.</p>
+          <p><strong>7)</strong> En caso de cancelación se le cobrara un 20% del costo total del pedido por penalización.</p>
+          <p><strong>8)</strong> Los precios estan sujetos a cambios con previo aviso.</p>
+          
+          <p style="margin-top: 15px;"><strong>También nos ponemos a sus órdenes con los servicios de:</strong></p>
+          <p>Box lonche • Coffee break • Canapés • Tacos de guisado • Banquetes • Candy bar • Snack bar.</p>
+          
+          <p style="margin-top: 20px; text-align: center; font-weight: 700;">¡Gracias por su preferencia!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const sideMenu = document.getElementById('sideMenu');
+    const mainContent = document.getElementById('main');
+    
+    menuBtn.addEventListener('click', () => {
+      sideMenu.classList.toggle('open');
+      mainContent.classList.toggle('shifted');
+      menuBtn.classList.toggle('open');
+    });
+
+    // Cerrar el menú al hacer clic en un enlace
+    document.querySelectorAll('#sideMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        sideMenu.classList.remove('open');
+        mainContent.classList.remove('shifted');
+        menuBtn.classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
